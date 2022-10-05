@@ -20,7 +20,7 @@ system_update(){
     sudo pacman --noconfirm -Syu
     sudo pacman -S --noconfirm --needed base-devel wget git curl
 }
-install_aur_helper(){ 
+install_aur_helper(){
     if ! command -v "$aurhelper" &> /dev/null
     then
     echo -e "${green}[*] It seems that you don't have $aurhelper installed, I'll install that for you before continuing.${no_color}"
@@ -86,12 +86,9 @@ copy_other_configs(){
     sudo cp -r ./tokyonight_gtk /usr/share/themes
     echo -e "${green}[*] Copying wallpapers to "$HOME"/Pictures/wallpapers.${no_color}"
     cp -r ./wallpapers/* "$HOME"/Pictures/wallpapers
-    echo -e "${green}[*] Copying vsc configs.${no_color}"
-    cp -r ./vsc/* "$HOME"/.vscode-oss/extensions
-    cp ./vsc/settings.json "$HOME"/.config/Code\ -\ OSS/User
     echo -e "${green}[*] Copying zsh configs.${no_color}"
-    sudo cp ./keyitdev.zsh-theme /usr/share/oh-my-zsh/custom/themes
     cp ./.zshrc "$HOME"
+    cp ./.zshrc.ini "$HOME"
 }
 install_additional_pkgs(){
     echo -e "${green}[*] Installing additional packages with $aurhelper.${no_color}"
@@ -118,10 +115,13 @@ finishing(){
     echo -e "${green}[*] Setting Zsh as default shell.${no_color}"
     chsh -s /bin/zsh
     sudo chsh -s /bin/zsh
+    echo -e "${green}[*] Downloading Vimplug.${no_color}"
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    echo -e "${green}[*] Downloading nvim dependencies.${no_color}"
+    pip3 install pynvim
     echo -e "${green}[*] Updating nvim extensions.${no_color}"
-    nvim +PackerSync
+    nvim +PlugInstall
 }
-
 cmd=(dialog --clear --title "Aur helper" --menu "Firstly, select the aur helper you want to install (or have already installed)." 10 50 16)
 options=(1 "yay" 2 "paru")
 choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
@@ -131,7 +131,8 @@ case $choices in
     2) aurhelper="paru";;
 esac
 
-cmd=(dialog --clear --separate-output --checklist "Select (with space) what script should do.\\nChecked options are required for proper installation, do not uncheck them if you do not know what you are doing." 26 86 16)
+cmd=(dialog --clear --separate-output --checklist "curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vimSelect (with space) what script should do.\\nChecked options are required for proper installation, do not uncheck them if you do not know what you are doing." 26 86 16)
 options=(1 "System update" on
          2 "Install aur helper" on
          3 "Install basic packages" on
@@ -141,7 +142,7 @@ options=(1 "System update" on
          7 "Copy configs" on
          8 "Copy scripts" on
          9 "Copy fonts" on
-         10 "Copy other configs (gtk theme, wallpaper, vsc configs, zsh configs)" on
+         10 "Copy other configs (gtk theme, wallpaper, zsh configs)" on
          11 "Install additional packages" off
          12 "Install emoji fonts" off
          13 "Install sddm with flower theme" off

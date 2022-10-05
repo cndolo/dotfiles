@@ -3,7 +3,8 @@
 # Copyright (C) 2022 Keyitdev
 
 # set mod
-set $mod Mod4
+set $mod Mod1
+set $ms Mod4
 
 # set font
 font pango:Open sans 11
@@ -94,9 +95,6 @@ bindsym $mod+space focus mode_toggle
 # run lockscreen
 bindsym $mod+i exec lock
 
-# monitor settings
-bindsym $mod+n exec xrandr --auto --output eDP-1 --mode 1920x1080 --right-of HDMI-1 && i3-msg restart &
-bindsym $mod+m exec xrandr --auto --output HDMI-1 --off && i3-msg restart &
 
 # toggle polybar
 bindsym $mod+o exec $HOME/.config/polybar/launch.sh
@@ -292,3 +290,21 @@ mode "$mode_gaps_outer" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
+
+## monitors
+# use xrandr to find display name
+exec --no-startup-id xrandr --output DP2-2 --auto --right-of DP2-3 &
+
+# thunderbird
+for_window [class="thunderbird"] move to workspace $ws1
+exec --no-startup-id i3-msg 'workspace $ws1; exec thunderbird'
+bindsym $mod+shift+t exec thunderbird
+for_window [window_role="Msgcompose" class="(?i)Thunderbird"] floating enable
+
+# spotify
+for_window [class="spotify"] move to workspace $ws2
+exec --no-startup-id i3-msg 'workspace $ws2; exec spotify'
+bindsym $mod+shift+s exec spotify
+
+bindsym $ms+d exec setxkbmap de
+bindsym $ms+g exec setxkbmap gb
