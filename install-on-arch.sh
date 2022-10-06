@@ -32,7 +32,7 @@ install_aur_helper(){
 }
 install_pkgs(){
     echo -e "${green}[*] Installing packages with pacman.${no_color}"
-    sudo pacman -S --noconfirm --needed acpi alsa-utils base-devel curl git pulseaudio pulseaudio-alsa xorg xorg-xinit alacritty btop code dunst feh firefox i3-gaps libnotify light mpc mpd ncmpcpp nemo neofetch neovim pacman-contrib papirus-icon-theme picom polybar ranger rofi scrot slop xclip zathura zathura-pdf-mupdf zsh
+    sudo pacman -S --noconfirm --needed autorandr acpi alsa-utils base-devel curl git pulseaudio pulseaudio-alsa xorg xorg-xinit alacritty btop code dunst feh firefox i3-gaps libnotify light mpc mpd ncmpcpp nemo neofetch neovim pacman-contrib papirus-icon-theme picom polybar ranger rofi scrot slop xclip zathura zathura-pdf-mupdf zsh
 }
 install_aur_pkgs(){
     echo -e "${green}[*] Installing packages with $aurhelper.${no_color}"
@@ -110,6 +110,8 @@ install_sddm(){
     Current=sddm-flower-theme" | sudo tee /etc/sddm.conf
 }
 finishing(){
+    echo -e "${green}[*] Saving current monitor configuration.${no_color}"
+    autorandr --save installation
     echo -e "${green}[*] Chmoding light.${no_color}"
     sudo chmod +s /usr/bin/light
     echo -e "${green}[*] Setting Zsh as default shell.${no_color}"
