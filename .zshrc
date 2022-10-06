@@ -149,9 +149,9 @@ fi
 # Example aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-# For consistency on Mac & Linux
 alias zshconfig="mate ~/.zshrc"
-alias open='xdg-open'
+# For consistency on Mac & Linux
+alias open='xdg-open' # use mimeinfo -d the first time to set filetype
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
