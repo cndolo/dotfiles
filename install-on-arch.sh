@@ -32,7 +32,7 @@ install_aur_helper(){
 }
 install_pkgs(){
     echo -e "${green}[*] Installing packages with pacman.${no_color}"
-    sudo pacman -S --noconfirm --needed autorandr acpi alsa-utils base-devel curl git pulseaudio pulseaudio-alsa xorg xorg-xinit alacritty btop code dunst feh firefox i3-gaps libnotify light mpc mpd ncmpcpp nemo neofetch neovim pacman-contrib papirus-icon-theme picom polybar ranger rofi scrot slop xclip zathura zathura-pdf-mupdf zsh
+    sudo pacman -S --noconfirm --needed autorandr acpi alsa-utils base-devel curl git pulseaudio pulseaudio-alsa xorg xorg-xinit alacritty btop code dunst feh firefox i3-gaps libnotify light mpc mpd ncmpcpp nemo neofetch neovim pacman-contrib papirus-icon-theme picom polybar ranger rofi scrot slop tmux xclip zathura zathura-pdf-mupdf zsh
 }
 install_aur_pkgs(){
     echo -e "${green}[*] Installing packages with $aurhelper.${no_color}"
@@ -89,6 +89,9 @@ copy_other_configs(){
     echo -e "${green}[*] Copying zsh configs.${no_color}"
     cp ./.zshrc "$HOME"
     cp ./.zshrc.ini "$HOME"
+    echo -e "${green}[*] Copying tmux configs.${no_color}"
+    cp ./config/tmux/.tmux.conf "$HOME"
+    cp ./config/tmux/.tmux.conf.local "$HOME"
 }
 install_additional_pkgs(){
     echo -e "${green}[*] Installing additional packages with $aurhelper.${no_color}"
